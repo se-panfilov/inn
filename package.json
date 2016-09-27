@@ -1,0 +1,12 @@
+{
+  "name": "inn",
+  "version": "0.0.1",
+  "description": "Russian INN (vat number) validator",
+  "author": "Sergey Panfilov <se-panfilov@ya.ru>",
+  "contributors": [],
+  "private": true,
+  "scripts": {},
+  "license": "None",
+  "dependencies": {},
+  "devDependencies": {}
+}
