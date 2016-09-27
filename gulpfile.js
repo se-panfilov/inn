@@ -5,8 +5,6 @@ const config = require('./build/config.js');
 const requireDir = require('require-dir');
 requireDir('./build', { recurse: true });
 
-gulp.src(['./package.json']).pipe(install());
-
 gulp.task('default', () => {
     gulp.start('make');
     gulp.start('todo');
