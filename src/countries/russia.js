@@ -1,6 +1,23 @@
-export default () => {
-    function _check10DigitINN (vat, rules) {
+COUNTRIES.russia = (() => {
+
+    const regex = [/^(RU)(\d{10}|\d{12})$/];
+
+    const multipliers = {
+        m_1: [2, 4, 10, 3, 5, 9, 4, 6, 8, 0],
+        m_2: [7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0],
+        m_3: [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0]
+    };
+
+    function _check10DigitINN (val, rules) {
         var total = 0;
+
+        const inn = val.toString();
+        const ctrlNum = [7, 2, 4, 10, 3, 5, 9, 4, 6, 8];
+        // TODO (S.Panfilov)debug
+        inn.split('').reduce((previousValue, currentItem, index, arr) => {
+            console.log(previousValue + ' + ' + (+currentItem * ctrlNum2[index - 1]));
+            return +previousValue + (+currentItem * +ctrlNum2[index - 1])
+        });
 
         if (vat.length === 10) {
 
@@ -56,17 +73,16 @@ export default () => {
         return false;
     }
 
+
     return {
-        calcs: function (vat) {
-            return _check10DigitINN(vat, this.rules) || _check12DigitINN(vat, this.rules);
+        getValidLength () {
+            return [10, 12];
         },
-        rules: {
-            multipliers: {
-                m_1: [2, 4, 10, 3, 5, 9, 4, 6, 8, 0],
-                m_2: [7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0],
-                m_3: [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0]
-            },
-            regex: [/^(RU)(\d{10}|\d{12})$/]
+        getRegexp () {
+            return regex;
+        },
+        checkSum (val) {
+            return _check10DigitINN(val, this.rules) || _check12DigitINN(val, this.rules);
         }
     };
-};
+})();

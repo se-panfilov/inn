@@ -11,11 +11,19 @@ const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
+const wrap = require('gulp-wrap');
 
 gulp.task('js', () => {
 
-    // return gulp.src(config.js.src)
-    return gulp.src('./src/main.js')
+    const moduleWrap =
+        '// eslint-disable-next-line no-unused-vars\n' +
+        'var validator = (function () {' +
+        '\n\r<%= contents %>' +
+        '\n\rif (typeof module === \'object\' && module.exports) module.exports = toExport;' +
+        '\n\rreturn toExport;' +
+        '\n\r})();';
+
+    return gulp.src(config.js.src)
         .pipe(plumber({
             errorHandler: notify.onError(err => {
                 return {
@@ -26,8 +34,8 @@ gulp.task('js', () => {
         }))
         .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(rename({ basename: config.projectName + '.js' }))
-        // .pipe(concat(config.projectName + '.js'))
+        .pipe(concat(config.projectName + '.js'))
+        .pipe(wrap(moduleWrap))
         .pipe(eslint({
             fix: true
         }))
