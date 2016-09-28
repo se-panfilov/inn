@@ -10,6 +10,7 @@ const rename = require('gulp-rename');
 const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
 const babel = require('gulp-babel');
+const eslint = require('gulp-eslint');
 
 gulp.task('js', () => {
 
@@ -23,10 +24,12 @@ gulp.task('js', () => {
             })
         }))
         .pipe(sourcemaps.init())
-        .pipe(babel({
-            presets: ['es2015']
-        }))
+        .pipe(babel())
         .pipe(concat(config.projectName + '.js'))
+        .pipe(eslint({
+            fix: true
+        }))
+        .pipe(eslint.format())
         .pipe(gulp.dest(config.dest))
         .pipe(uglify())
         .pipe(rename({ basename: config.projectName + '.min' }))
