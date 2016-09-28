@@ -14,7 +14,8 @@ const eslint = require('gulp-eslint');
 
 gulp.task('js', () => {
 
-    return gulp.src(config.js.src)
+    // return gulp.src(config.js.src)
+    return gulp.src('./src/main.js')
         .pipe(plumber({
             errorHandler: notify.onError(err => {
                 return {
@@ -25,7 +26,8 @@ gulp.task('js', () => {
         }))
         .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(concat(config.projectName + '.js'))
+        .pipe(rename({ basename: config.projectName + '.js' }))
+        // .pipe(concat(config.projectName + '.js'))
         .pipe(eslint({
             fix: true
         }))

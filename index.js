@@ -1,5 +1,1 @@
-"use strict";
-
-async function foo () {
-    await bar();
-}
+require('lib/inn.js');
