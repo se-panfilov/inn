@@ -16,6 +16,11 @@ COUNTRIES.russia = (() => {
         ]
     };
 
+    const controlNumPosition = {
+        short: -1,
+        long: [-2, -1]
+    };
+
     function checkVAT (vat, controlSequence, controlNumPosition) {
         const valArr = vat.toString().split('').map(v => +v);
         const controlNum = valArr[controlNumPosition];
@@ -27,13 +32,13 @@ COUNTRIES.russia = (() => {
 
     function check10DigitVAT (vat) {
         // vat = 7830002293;
-        return checkVAT(vat, controlSequence.short, vat.toString().length - 1);
+        return checkVAT(vat, controlSequence.short, vat.toString().length + controlNumPosition.short);
     }
 
     function check12DigitVAT (vat) {
         //val = 500100732259;
-        const isFirstNumValid = checkVAT(vat, controlSequence.long[0], vat.toString().length - 2);
-        const isSecondNumValid = checkVAT(vat, controlSequence.long[1], vat.toString().length - 1);
+        const isFirstNumValid = checkVAT(vat, controlSequence.long[0], validLength.short + controlNumPosition.long[0]);
+        const isSecondNumValid = checkVAT(vat, controlSequence.long[1], validLength.long + controlNumPosition.long[1]);
 
         return isFirstNumValid && isSecondNumValid;
     }
