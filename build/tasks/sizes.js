@@ -5,7 +5,7 @@ const size = require('gulp-size');
 
 gulp.task('sizes', () => {
     return gulp.src([
-        'dist/**/*.js',
-        'dist/**/*.gz'
+        'lib/**/*.js',
+        'lib/**/*.gz'
     ]).pipe(size({ showFiles: true, showTotal: true }));
 });
