@@ -8,16 +8,31 @@ function checkLength (length, rules) {
     return arr.some(v => v === length);
 }
 
+const MESSAGES = {
+    INVALID_LENGTH: 'INVALID_LENGTH',
+    REGEX_DONT_MATCH: 'REXEX_DONT_MATCH',
+    CHECKSUM_DONT_MATCH: 'CHECKSUM_DONT_MATCH',
+    VALID: 'VALID'
+};
+
+function makeResponse (result, message, country) {
+    return { result, message, country };
+}
+
+function getErrorMsg (value, rules, country) {
+    if (!checkLength(value.length, rules)) return MESSAGES.INVALID_LENGTH;
+
+    if (!rules.regex.test(value)) return MESSAGES.REGEX_DONT_MATCH;
+
+    if (!COUNTRIES[country].checkVat(value)) return MESSAGES.CHECKSUM_DONT_MATCH;
+}
 // eslint-disable-next-line no-unused-vars
 var toExport = {
-    checkINN: (value, country = 'russia') => {
+    checkVAT: (value, country = 'russia') => {
         const rules = COUNTRIES[country].rules;
-        if (!checkLength(value.length, rules)) return 'invalid length';
+        const errorMsg = getErrorMsg(value, rules, country);
+        const msg = errorMsg || MESSAGES.VALID;
 
-        if (!rules.regex.test(value)) return 'don\'t match regex';
-
-        if (!COUNTRIES[country].checkVat(value)) return 'checksum didn\'t match';
-
-        return true;
+        return makeResponse(!errorMsg, msg);
     }
 };
