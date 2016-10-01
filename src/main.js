@@ -15,24 +15,22 @@ const MESSAGES = {
     VALID: 'VALID'
 };
 
-function makeResponse (result, message, country) {
-    return { result, message, country };
-}
-
-function getErrorMsg (value, rules, country) {
+function getMsg (value, rules, country) {
     if (!checkLength(value.length, rules)) return MESSAGES.INVALID_LENGTH;
 
     if (!rules.regex.test(value)) return MESSAGES.REGEX_DONT_MATCH;
 
     if (!COUNTRIES[country].checkVat(value)) return MESSAGES.CHECKSUM_DONT_MATCH;
+
+    return MESSAGES.VALID;
 }
+
 // eslint-disable-next-line no-unused-vars
 var toExport = {
     checkVAT: (value, country = 'russia') => {
         const rules = COUNTRIES[country].rules;
-        const errorMsg = getErrorMsg(value, rules, country);
-        const msg = errorMsg || MESSAGES.VALID;
+        const msg = getMsg(value, rules, country);
 
-        return makeResponse(!errorMsg, msg);
+        return { result: msg === MESSAGES.VALID, msg, country };
     }
 };

@@ -49,7 +49,7 @@ COUNTRIES.russia = (() => {
 
     return {
         rules: rules,
-        checkVat (vat, options) {
+        checkVat (vat) {
             return check10DigitVAT(vat) || check12DigitVAT(vat);
         }
     };
