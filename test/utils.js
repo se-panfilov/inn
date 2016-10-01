@@ -13,15 +13,14 @@ module.exports = {
             return it(testMsg, function () {
                 var result = jsvat.checkVAT(item);
                 if (isTrue) {
-                    expect(result.value).to.be.equal(item.toString().toUpperCase().replace(/(\s|-|\.)+/g, ''));
-                    expect(result.isValid).to.be.true;
-                    console.log(result.country);
-                    console.log(countryName);
                     expect(result.country).to.be.equal(countryName);
+                    expect(result.result).to.be.true;
+                    expect(result.msg).to.be.equal('VALID');
                 } else {
-                    expect(result.value).to.be.equal(item.toString().toUpperCase().replace(/(\s|-|\.)+/g, ''));
-                    expect(result.isValid).to.be.false;
-                    expect(result.country).to.be.null;
+                    expect(result.country).to.be.equal(countryName);
+                    expect(result.result).to.be.false;
+                    // TODO (S.Panfilov) checkmessage
+                    // expect(result.msg).to.be.null;
                 }
             });
         });

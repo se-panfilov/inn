@@ -3,7 +3,7 @@ COUNTRIES.russia = (() => {
 
     const rules = {
         globalControlNumber: 11,
-        regex: [/^(\d{10}|\d{12})$/],
+        regex: new RegExp('[/^(\d{10}|\d{12})$/]'),
         variations: {
             short: {
                 _length: 10,
